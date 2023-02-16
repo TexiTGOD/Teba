@@ -95,12 +95,13 @@ function cardCarritoAgregar(carrito) {
 }
 function favGuardar(stock) {
   //Evento del boton "Agreagar al carrit
-  for (let g of stock) {
+  for (let e of stock) {
     // Bucle
-    const bottonFav = document.getElementById(`btnFav${g.id}`); // Boton
+    const bottonFav = document.getElementById(`btnFav${e.id}`); // Boton
 
     bottonFav.addEventListener("click", () => {
-      fav.push(g.nombre);
+      fav.push(e.nombre);
+      e.preventDefault();
       localStorage.setItem("Favorito", JSON.stringify(fav));
       console.log(fav);
     }); // Modificar Evento
