@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>#TEBACONTODO</title>
+    <link rel="icon" type="image/x-icon" href="./IMG/TEBA.png" />
+  </head>
+  <body>
+    <div class="head">
+      <div class="logo">
+        <a href="index.html"
+          ><img src="./IMG/TEBA.png" width="50px" height="50px"
+        /></a>
+      </div>
+
+      <nav class="navbar">
+        <a href="index.html">Inicio</a>
+        <a href="precio.html">Precio</a>
+        <a href="colaboracion.html">Colaboraciones</a>
+        <img
+          src="./IMG/carito.png"
+          class="caritoImg"
+          width="50px"
+          height="50px"
+          alt="carito"
+          id="carito"
+        />
+      </nav>
+    </div>
+
+    <header class="content header">
+      <h2 class="title">Beats en youtube</h2>
+      <div class="btn-home">
+        <a
+          href="https://www.youtube.com/@tebaprods."
+          target="_blank"
+          class="btn"
+          >Saber mas</a
+        >
+      </div>
+    </header>
+    <div class="carito-Container">
+      <dialog id="carito-Dialog" class="carito-dialog">
+        <div class="heder-modal">
+          <h2 class="title">carito</h2>
+          <h2 class="titleH closeModal">x</h2>
+        </div>
+        <div class="card-Carrito-Container"></div>
+      </dialog>
+    </div>
+    <section class="content sau" id="selectorGeneros">
+      <article>
+        <input
+          placeholder="Searth a beats..."
+          type="text"
+          name="text"
+          class="input"
+        />
+        <select name="" class="input">
+          <option value="">Trap</option>
+          <option value="">Reggeton</option>
+          <option value="">RKT</option>
+        </select>
+      </article>
+      <article class="cardContiner" id="stockBeats"></article>
+    </section>
+  </body>
+  <script src="script.js"></script>
+</html>
