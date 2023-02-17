@@ -128,7 +128,10 @@ function favGuardar(stock) {
   }
 }
 function buscadorInput(input, array) {
-  array.fillter(input);
+  let resultadoBusqueda = array.filter(
+    (e) => e.nombre.toLowerCase() === input.toLowerCase()
+  );
+  console.log(input.value);
 }
 // Ejecucion del Evento del boton
 verCardsBeats(stock);
@@ -141,5 +144,6 @@ document.getElementById("limpiar-carrito").addEventListener("click", () => {
   cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
 });
 let valorBuscador = buscador.value;
-buscador.addEventListener("input", () => {});
-buscadorInput(valorBuscador, stock);
+buscador.addEventListener("input", () => {
+  buscadorInput(valorBuscador, stock);
+});
