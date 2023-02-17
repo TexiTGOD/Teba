@@ -34,6 +34,7 @@ const fav = [];
 const caritoDialog = document.getElementById("carito-Dialog");
 const caritoImg = document.getElementById("carito");
 const closeModal = document.querySelector(".closeModal");
+
 function verCardsBeats(Array) {
   //capturar divStock
   let stockDiv = document.getElementById("stockBeats");
@@ -62,16 +63,30 @@ function verCardsBeats(Array) {
     stockDiv.append(nuevoBeat);
   }
 }
+
+const agregarProducto = (producto) => {
+  const arr = localStorage.getItem("Carrito");
+  if (!arr) localStorage.setItem("Carrito", JSON.stringify([]));
+  else {
+    const newCarrito = JSON.parse(arr);
+    newCarrito.push(producto);
+    localStorage.setItem("Carrito", JSON.stringify(newCarrito));
+  }
+};
+
 //Funcion para el boton de agregar al carrito
 function agregarCarrito(stock) {
   //Evento del boton "Agreagar al carrito"
   for (let e of stock) {
+    const botonCarrito = document.getElementById(`btncomprar${e.id}`); // Boton
     // Bucle
-    let botonCarrito = document.getElementById(`btncomprar${e.id}`); // Boton
-    botonCarrito.onclick = () => carrito.push(e.nombre); // Modificar Evento
-    localStorage.setItem("Carrito", JSON.stringify(carrito));
+    botonCarrito.addEventListener("click", () => {
+      agregarProducto(e);
+      cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
+    }); // Modificar Evento
   }
 }
+
 function showCarrito() {
   caritoImg.addEventListener("click", () => {
     caritoDialog.showModal();
@@ -80,30 +95,33 @@ function showCarrito() {
     caritoDialog.close();
   });
 }
+
 function cardCarritoAgregar(carrito) {
+  const modalDiv = document.querySelector(".carrito-modal");
+  modalDiv.innerHTML = "";
+  if (!carrito) return;
   for (let e of carrito) {
     let modalCarrito = document.createElement("div");
-    let modalDiv = document.getElementsByClassName("card-Carrito-Container");
     modalCarrito.innerHTML = `      
-   <img class="img-carrito" src="${carrito.imagen}"/>
-  <div class="titulo-Container">
-    <h2 class="carrito">${carrito.titulo}</h2>
-    <h2 class="carrito-Precio">${carrito.precio}</h2>
-  </div>`;
+    <img class="img-carrito" src="${e.imagen}"/>
+    <div class="titulo-Container">
+      <h2 class="carrito">${e.nombre}</h2>
+      <h2 class="carrito-Precio">${e.precio}</h2>
+      <h2 class="carrito-eliminar" producto="${e.id}">X</h2>
+    </div>`;
     modalDiv.appendChild(modalCarrito);
   }
 }
+
 function favGuardar(stock) {
   //Evento del boton "Agreagar al carrit
   for (let e of stock) {
     // Bucle
     const bottonFav = document.getElementById(`btnFav${e.id}`); // Boton
-
-    bottonFav.addEventListener("click", () => {
+    bottonFav.addEventListener("click", (event) => {
       fav.push(e.nombre);
-      e.preventDefault();
+      event.preventDefault();
       localStorage.setItem("Favorito", JSON.stringify(fav));
-      console.log(fav);
     }); // Modificar Evento
   }
 }
@@ -113,4 +131,9 @@ verCardsBeats(stock);
 agregarCarrito(stock);
 favGuardar(stock);
 showCarrito(carrito);
-cardCarritoAgregar(carrito);
+cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
+
+document.getElementById("limpiar-carrito").addEventListener("click", () => {
+  localStorage.setItem("Carrito", JSON.stringify([]));
+  cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
+});
