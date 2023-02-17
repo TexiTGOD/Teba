@@ -34,18 +34,19 @@ const fav = [];
 const caritoDialog = document.getElementById("carito-Dialog");
 const caritoImg = document.getElementById("carito");
 const closeModal = document.querySelector(".closeModal");
-const buscador = document.getElementById("input-Buscador");
+const buscador = document.querySelector("#input-Buscador");
 const resultado = document.getElementById("resultado");
 
 function verCardsBeats(Array) {
   //capturar divStock
   let stockDiv = document.getElementById("stockBeats");
   //codigo para imprimir array de stock
+  stockDiv.innerHTML = ``;
   for (let Beats of Array) {
     let nuevoBeat = document.createElement("div");
     nuevoBeat.innerHTML = `
-    <label class="container" id="btnFav${Beats.id}" >
-      <input type="checkbox">
+    <label class="container"  >
+      <input type="checkbox" id="checkboxFav${Beats.id}">
       <div class="checkmark">
         <svg viewBox="0 0 256 256">
         <rect fill="none" height="256" width="256"></rect>
@@ -119,19 +120,25 @@ function favGuardar(stock) {
   //Evento del boton "Agreagar al carrit
   for (let e of stock) {
     // Bucle
-    const bottonFav = document.getElementById(`btnFav${e.id}`); // Boton
-    bottonFav.addEventListener("click", (event) => {
+    const checkboxFav = document.getElementById(`checkboxFav${e.id}`);
+    checkboxFav.addEventListener("click", (event) => {
       fav.push(e.nombre);
-      event.preventDefault();
+      checkboxFav.className = `classredLike`;
       localStorage.setItem("Favorito", JSON.stringify(fav));
     }); // Modificar Evento
   }
 }
+
 function buscadorInput(input, array) {
-  let resultadoBusqueda = array.filter(
-    (e) => e.nombre.toLowerCase() === input.toLowerCase()
+  let resultadoBusqueda = array.filter((e) =>
+    e.nombre.toLowerCase().includes(input)
   );
-  console.log(input.value);
+  if (resultadoBusqueda.length == 0) {
+    console.log(`nonnonon`);
+    verCardsBeats(stock);
+  } else {
+    verCardsBeats(resultadoBusqueda);
+  }
 }
 // Ejecucion del Evento del boton
 verCardsBeats(stock);
@@ -143,7 +150,7 @@ document.getElementById("limpiar-carrito").addEventListener("click", () => {
   localStorage.setItem("Carrito", JSON.stringify([]));
   cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
 });
-let valorBuscador = buscador.value;
+
 buscador.addEventListener("input", () => {
-  buscadorInput(valorBuscador, stock);
+  buscadorInput(buscador.value, stock);
 });

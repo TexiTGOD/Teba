@@ -136,7 +136,7 @@ body {
 }
 
 .content {
-  height: 50vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -359,7 +359,10 @@ body {
   fill: #ff5353;
   stroke-width: 0;
 }
-
+.classredLike {
+  fill: #ff5353;
+  stroke-width: 0;
+}
 .container input:checked ~ .checkmark {
   animation: like_effect 400ms ease;
 }
