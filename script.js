@@ -34,6 +34,8 @@ const fav = [];
 const caritoDialog = document.getElementById("carito-Dialog");
 const caritoImg = document.getElementById("carito");
 const closeModal = document.querySelector(".closeModal");
+const buscador = document.getElementById("input-Buscador");
+const resultado = document.getElementById("resultado");
 
 function verCardsBeats(Array) {
   //capturar divStock
@@ -125,15 +127,19 @@ function favGuardar(stock) {
     }); // Modificar Evento
   }
 }
-
+function buscadorInput(input, array) {
+  array.fillter(input);
+}
 // Ejecucion del Evento del boton
 verCardsBeats(stock);
 agregarCarrito(stock);
 favGuardar(stock);
 showCarrito(carrito);
 cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
-
 document.getElementById("limpiar-carrito").addEventListener("click", () => {
   localStorage.setItem("Carrito", JSON.stringify([]));
   cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
 });
+let valorBuscador = buscador.value;
+buscador.addEventListener("input", () => {});
+buscadorInput(valorBuscador, stock);
