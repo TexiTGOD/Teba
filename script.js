@@ -36,7 +36,9 @@ const caritoImg = document.getElementById("carito");
 const closeModal = document.querySelector(".closeModal");
 const buscador = document.querySelector("#input-Buscador");
 const resultado = document.getElementById("resultado");
-
+const carritoEliminar = document.querySelectorAll(".carrito-eliminar");
+const modalDiv = document.querySelector(".carrito-modal");
+const loaderAnimation = document.querySelector(".loader-continer");
 function verCardsBeats(Array) {
   //capturar divStock
   let stockDiv = document.getElementById("stockBeats");
@@ -84,8 +86,23 @@ function agregarCarrito(stock) {
     const botonCarrito = document.getElementById(`btncomprar${e.id}`); // Boton
     // Bucle
     botonCarrito.addEventListener("click", () => {
+      if (
+        !!JSON.parse(localStorage.getItem("Carrito")).find(
+          (item) => item.id == e.id
+        )
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Ya se agrrego",
+        });
+        return;
+      }
       agregarProducto(e);
       cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
+      Swal.fire({
+        icon: "success",
+        title: "Se agrego al carrito",
+      });
     }); // Modificar Evento
   }
 }
@@ -98,22 +115,21 @@ function showCarrito() {
     caritoDialog.close();
   });
 }
-
 function cardCarritoAgregar(carrito) {
-  const modalDiv = document.querySelector(".carrito-modal");
   modalDiv.innerHTML = "";
   if (!carrito) return;
   for (let e of carrito) {
     let modalCarrito = document.createElement("div");
     modalCarrito.innerHTML = `      
     <img class="img-carrito" src="${e.imagen}"/>
-    <div class="titulo-Container">
+    <div class="titulo-Container" id="${e.id}">
       <h2 class="carrito">${e.nombre}</h2>
       <h2 class="carrito-Precio">${e.precio}</h2>
-      <h2 class="carrito-eliminar" producto="${e.id}">X</h2>
+      <h2 class="carrito-eliminar">X</h2>
     </div>`;
     modalDiv.appendChild(modalCarrito);
   }
+  precioTotal();
 }
 
 function favGuardar(stock) {
@@ -140,8 +156,17 @@ function buscadorInput(input, array) {
     verCardsBeats(resultadoBusqueda);
   }
 }
+function precioTotal() {
+  const carrito = JSON.parse(localStorage.getItem("Carrito"));
+  let total = 0;
+  carrito.forEach((item) => (total += item.precio));
+  document.getElementById("totalCarrito").innerText = total;
+}
 // Ejecucion del Evento del boton
-verCardsBeats(stock);
+setTimeout(() => {
+  verCardsBeats(stock);
+  loaderAnimation.innerHTML = "";
+}, 2000);
 agregarCarrito(stock);
 favGuardar(stock);
 showCarrito(carrito);
@@ -149,8 +174,22 @@ cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
 document.getElementById("limpiar-carrito").addEventListener("click", () => {
   localStorage.setItem("Carrito", JSON.stringify([]));
   cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
+  Swal.fire({
+    icon: "warning",
+    title: "Se elimino el carrito",
+  });
+  caritoDialog.close();
 });
 
 buscador.addEventListener("input", () => {
   buscadorInput(buscador.value, stock);
+});
+modalDiv.addEventListener("click", (e) => {
+  if (!e.target.className.includes("carrito-eliminar")) return;
+  const cardId = e.target.parentElement.id;
+  const carritoStorage = JSON.parse(localStorage.getItem("Carrito"));
+  const newCarrito = carritoStorage.filter((producto) => producto.id != cardId);
+  console.log(newCarrito);
+  localStorage.setItem("Carrito", JSON.stringify(newCarrito));
+  cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
 });

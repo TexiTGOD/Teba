@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="style.css" />
     <title>#TEBACONTODO</title>
     <link rel="icon" type="image/x-icon" href="./IMG/TEBA.png" />
@@ -54,6 +55,9 @@
           <div id="limpiar-carrito">Limpiar Carrito</div>
         </div>
         <div class="carrito-modal"></div>
+        <div>
+          <h2 class="titleH">Total: $<span id="totalCarrito">0</span></h2>
+        </div>
       </dialog>
     </div>
     <section class="content sau" id="selectorGeneros">
@@ -66,13 +70,18 @@
           id="input-Buscador"
         />
         <h3 class="titleB" id="resultado"></h3>
-        <select name="" class="input">
-          <option value="">Trap</option>
-          <option value="">Reggeton</option>
-          <option value="">RKT</option>
-        </select>
       </article>
       <article class="cardContiner" id="stockBeats"></article>
+      <article class="loader-continer">
+        <div class="wrapper">
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+        </div>
+      </article>
     </section>
     <script src="script.js"></script>
   </body>
