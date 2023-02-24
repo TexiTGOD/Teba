@@ -1,0 +1,28 @@
+[
+  {
+    "nombre": "Nuevula",
+    "precio": 25,
+    "imagen": "./IMG/nebulaBeat.jpg",
+    "id": 1
+  },
+  {
+    "nombre": "fack World",
+    "precio": 30,
+    "imagen": "./IMG/fackwld.jpg",
+    "id": 2
+  },
+  { "nombre": "I am alone", "precio": 40, "imagen": "./IMG/solo.jpg", "id": 3 },
+  { "nombre": "Money", "precio": 33, "imagen": "./IMG/iamrisch.jpg", "id": 4 },
+  {
+    "nombre": "the final min",
+    "precio": 30,
+    "imagen": "./IMG/tirofinal.jpg",
+    "id": 5
+  },
+  {
+    "nombre": "I am Rich",
+    "precio": 20,
+    "imagen": "./IMG/ihavemoney.jpg",
+    "id": 6
+  }
+]
