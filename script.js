@@ -39,6 +39,7 @@ const resultado = document.getElementById("resultado");
 const carritoEliminar = document.querySelectorAll(".carrito-eliminar");
 const modalDiv = document.querySelector(".carrito-modal");
 const loaderAnimation = document.querySelector(".loader-continer");
+const confirmarCompra = document.querySelector("#compra-Confiramr");
 function verCardsBeats(Array) {
   //capturar divStock
   let stockDiv = document.getElementById("stockBeats");
@@ -84,6 +85,7 @@ function agregarCarrito(stock) {
   //Evento del boton "Agreagar al carrito"
   for (let e of stock) {
     const botonCarrito = document.getElementById(`btncomprar${e.id}`); // Boton
+
     // Bucle
     botonCarrito.addEventListener("click", () => {
       if (
@@ -162,34 +164,55 @@ function precioTotal() {
   carrito.forEach((item) => (total += item.precio));
   document.getElementById("totalCarrito").innerText = total;
 }
-// Ejecucion del Evento del boton
+function FinalizarCompra() {
+  confirmarCompra.addEventListener("click", () => {
+    Swal.fire({
+      title: "Finalizar compra",
+      showDenyButton: true,
+      confirmButtonText: "Confiramr",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire("Se a finalizado la compra, revisa tu E-Mail");
+      } else if (result.isDenied) {
+        Swal.fire("Se Cancelo la compra");
+      }
+    });
+    caritoDialog.close();
+  });
+} // Ejecucion del Evento del boton
+
 setTimeout(() => {
   verCardsBeats(stock);
   loaderAnimation.innerHTML = "";
-}, 2000);
-agregarCarrito(stock);
-favGuardar(stock);
-showCarrito(carrito);
-cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
-document.getElementById("limpiar-carrito").addEventListener("click", () => {
-  localStorage.setItem("Carrito", JSON.stringify([]));
+  FinalizarCompra();
+  agregarCarrito(stock);
+  favGuardar(stock);
+  showCarrito(carrito);
   cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
-  Swal.fire({
-    icon: "warning",
-    title: "Se elimino el carrito",
+  document.getElementById("limpiar-carrito").addEventListener("click", () => {
+    localStorage.setItem("Carrito", JSON.stringify([]));
+    cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
+    Swal.fire({
+      icon: "warning",
+      title: "Se elimino el carrito",
+    });
+    caritoDialog.close();
   });
-  caritoDialog.close();
-});
 
-buscador.addEventListener("input", () => {
-  buscadorInput(buscador.value, stock);
-});
-modalDiv.addEventListener("click", (e) => {
-  if (!e.target.className.includes("carrito-eliminar")) return;
-  const cardId = e.target.parentElement.id;
-  const carritoStorage = JSON.parse(localStorage.getItem("Carrito"));
-  const newCarrito = carritoStorage.filter((producto) => producto.id != cardId);
-  console.log(newCarrito);
-  localStorage.setItem("Carrito", JSON.stringify(newCarrito));
-  cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
-});
+  buscador.addEventListener("input", () => {
+    buscadorInput(buscador.value, stock);
+  });
+  modalDiv.addEventListener("click", (e) => {
+    if (!e.target.className.includes("carrito-eliminar")) return;
+    const cardId = e.target.parentElement.id;
+    const carritoStorage = JSON.parse(localStorage.getItem("Carrito"));
+    const newCarrito = carritoStorage.filter(
+      (producto) => producto.id != cardId
+    );
+    console.log(newCarrito);
+    localStorage.setItem("Carrito", JSON.stringify(newCarrito));
+    cardCarritoAgregar(JSON.parse(localStorage.getItem("Carrito")));
+  });
+}, 2000);
